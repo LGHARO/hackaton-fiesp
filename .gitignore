@@ -1,0 +1,40 @@
+# Ambiente virtual e caches do Python
+.venv/
+env/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# Caches de modelos e transformers
+.cache/
+hf_cache/
+
+# Dados privados, bases locais e arquivos volumosos (>100MB)
+data/private/
+data/raw/IMP_*.csv
+data/raw/*.parquet
+dados_tabela_exportacoes_importacoes.csv
+*.parquet
+
+# Exceção para manter o arquivo de referência do Comex Stat e gitkeeps
+!data/reference/comexstat_2021_ncm_uf.parquet
+!data/reference/.gitkeep
+!data/processed/.gitkeep
+!data/raw/.gitkeep
+!outputs/.gitkeep
+
+# Dados derivados de operações privadas
+data/processed/operacoes_*
+data/processed/*.npy
+!data/processed/cnaes_embeddings.npy
+
+# Saídas e entregas locais
+outputs/*
+!outputs/.gitkeep
+entrega/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+# Arquivos e diretórios privados contendo dados sensíveis do usuário
+data/private/
+*.parquet
+*.csv.gz
+operacoes_reais*
+*dados_sensíveis*

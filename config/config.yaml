@@ -1,0 +1,53 @@
+data:
+  # Caminho para o arquivo de operações. Substitua pelo seu arquivo local (.parquet ou .csv)
+  # Ou passe diretamente via CLI: python main.py --input /caminho/do/seu_arquivo.parquet
+  operations_file: "data/raw/operacoes_sample.csv"
+  companies_file: "dados_tabela_exportacoes_importacoes.csv"
+  ncm_file: "br_bd_diretorios_mundo_nomenclatura_comum_mercosul.csv"
+  cnae_file: "data/reference/cnae_referencia.csv"
+  processed_dir: "data/processed"
+  output_dir: "outputs"
+
+preprocessing:
+  sample_size: null  # null para todas as linhas ou int para amostra rápida
+  text_template: "NCM: {cod_ncm}. Descrição oficial do NCM: {descricao_ncm}. Produto: {descricao_do_produto}."
+  fill_missing_str: "NÃO INFORMADO"
+
+baseline:
+  top_k_cnae: 5
+  word_ngram_range: [1, 2]
+  char_ngram_range: [3, 5]
+  word_max_features: 25000
+  char_max_features: 35000
+  weight_word: 0.5
+  weight_char: 0.5
+
+embeddings:
+  model_name: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+  batch_size: 64
+  normalize_embeddings: true
+  device: "auto"  # 'cpu', 'cuda' ou 'auto'
+  cache_embeddings: true
+
+clustering:
+  algorithm: "minibatch_kmeans"  # 'minibatch_kmeans', 'kmeans', 'hdbscan', 'hierarchical'
+  n_clusters: 20
+  k_search_range: [5, 10, 15, 20, 30, 40]
+  hdbscan_min_cluster_size: 15
+  hdbscan_min_samples: 5
+  random_state: 42
+  dim_reduction: "none"  # 'none', 'pca', 'umap'
+  dim_components: 32
+
+association:
+  top_k_cnae: 5
+  weight_op_sim: 0.55
+  weight_cluster_sim: 0.35
+  weight_ncm_compat: 0.10
+
+retrieval:
+  top_k_cnpjs: 10
+  prioritize_active: true
+  primary_cnae_score: 1.0
+  secondary_cnae_score: 0.8
+  max_candidates_per_op: 25
