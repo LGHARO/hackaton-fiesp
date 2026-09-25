@@ -1,0 +1,17 @@
+[project]
+name = "hacka"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "certifi>=2026.7.22",
+    "duckdb>=1.5.5",
+    "fastparquet>=2026.5.0",
+    "ipykernel>=7.3.0",
+    "pandas>=3.0.6",
+    "pyarrow>=25.0.1",
+    "rapidfuzz>=3.14.6",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.1",
+]
