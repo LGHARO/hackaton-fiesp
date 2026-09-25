@@ -1,10 +1,20 @@
+# Ambiente virtual e caches do Python
 .venv/
+env/
+venv/
 __pycache__/
 *.pyc
+*.py[cod]
+*$py.class
+*.log
 .ipynb_checkpoints/
 
-# dados brutos e derivados: grandes, reprodutiveis via gate_1/scripts,
-# gate_2/scripts e shared/scripts
+# Caches de modelos e transformers
+.cache/
+hf_cache/
+
+# dados brutos e derivados (gate_1/gate_2/shared): grandes, reprodutiveis
+# via gate_1/scripts, gate_2/scripts e shared/scripts
 dados/
 *.parquet
 
@@ -13,3 +23,30 @@ dados/
 !gate_1/palpites_cnpj_top50.parquet
 !gate_2/palpites_cnpj_top50.parquet
 !gate_2/palpites_cnpj_top50_final.parquet
+
+# Dados privados, bases locais e arquivos volumosos (>100MB) -- pipeline ML (src/)
+data/private/
+data/raw/IMP_*.csv
+data/raw/*.parquet
+dados_tabela_exportacoes_importacoes.csv
+
+# Excecao para manter o arquivo de referencia do Comex Stat e gitkeeps
+!data/reference/comexstat_2021_ncm_uf.parquet
+!data/reference/.gitkeep
+!data/processed/.gitkeep
+!data/raw/.gitkeep
+!outputs/.gitkeep
+
+# Dados derivados de operacoes privadas
+data/processed/operacoes_*
+data/processed/*.npy
+!data/processed/cnaes_embeddings.npy
+
+# Saidas e entregas locais
+outputs/*
+!outputs/.gitkeep
+entrega/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db

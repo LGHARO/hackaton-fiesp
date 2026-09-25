@@ -1,12 +1,27 @@
 # Reidentificação de importadores em bases anonimizadas da Receita Federal
 
-Duas rodadas (gates) do mesmo problema: a Receita Federal publica bases de
-importação com o importador anonimizado. O objetivo, em cada gate, é gerar
-50 palpites de CNPJ de quem provavelmente fez cada importação, usando só
-cruzamento de dados públicos — sem nenhum vazamento direto de identidade na
-base.
+Este repositório reúne **duas abordagens independentes** para o mesmo
+problema do hackathon: dada uma base de importações com o importador
+anonimizado, gerar candidatos de CNPJ de quem provavelmente fez cada
+importação, usando só cruzamento de dados públicos.
 
-## Estrutura do repositório
+## As duas abordagens
+
+- **`gate_1/` + `gate_2/` + `shared/`** — pipeline baseado em clusterização
+  de texto (gate_1) e em concentração geográfica pública do comércio
+  exterior (gate_2), com CNPJs recuperados via cruzamento com a base
+  nacional de CNPJ da Receita Federal. Descrito abaixo.
+- **`src/` + `main.py`** — pipeline de machine learning (embeddings
+  semânticos, clustering, associação a CNAE oficial e recuperação de CNPJ
+  compatível). Descrito em [`README_PIPELINE_ML.md`](README_PIPELINE_ML.md).
+
+Os dois foram desenvolvidos em paralelo por integrantes diferentes da
+equipe; os resultados de cada um foram checados entre si (ver seção
+"Resultados") pra não entregar CNPJ repetido.
+
+---
+
+## Pipeline gate_1 / gate_2 / shared
 
 ```
 gate_1/     base menor (57.846 linhas) -- ver gate_1/RELATORIO.md
@@ -31,7 +46,7 @@ base nacional de CNPJ da Receita Federal, já filtrada pelos municípios que
 os dois gates precisaram consultar. Isso evita baixar/reprocessar a mesma
 base de CNPJ (múltiplos GB) duas vezes.
 
-## Como rodar
+### Como rodar
 
 Pré-requisitos: Python 3.14+, [`uv`](https://docs.astral.sh/uv/) (o projeto
 usa `uv run` para gerenciar dependências via `pyproject.toml`/`uv.lock`).
@@ -46,7 +61,7 @@ uv run python gate_2/scripts/03_concentracao_municipio.py
 A ordem de execução de cada gate está documentada na seção "Reprodução" do
 `RELATORIO.md` correspondente.
 
-## Dados
+### Dados
 
 `dados/` (em qualquer nível) e a maioria dos `*.parquet` **não vão pro
 controle de versão** (ver `.gitignore`) — são grandes (a base de CNPJ
@@ -55,7 +70,7 @@ partir dos scripts. As exceções explícitas são os arquivos de entrega
 (`palpites_cnpj_top50*.parquet` de cada gate), que ficam versionados porque
 são o resultado final, não dado intermediário.
 
-## Resultados
+### Resultados
 
 - `gate_1/palpites_cnpj_top50.csv` (+ `.parquet`)
 - `gate_2/palpites_cnpj_top50.csv` e `palpites_cnpj_top50_final.csv` (+
@@ -66,25 +81,12 @@ Os três conjuntos foram checados entre si e contra `operacoes_reidentificadas.p
 (identificado separadamente pela equipe) — **sem nenhum CNPJ repetido** entre
 os quatro.
 
-## Nota para quem for sincronizar com um repositório remoto existente
+---
 
-Este histórico local começou do zero durante uma reorganização grande: os
-arquivos do gate_1 (que originalmente estavam soltos na raiz do repo, num
-layout `scripts/`+`dados/` só) foram movidos para a estrutura
-`gate_1/` / `shared/` acima, e os caminhos de arquivo dentro de cada script
-foram atualizados junto. Se o remoto compartilhado ainda tiver o layout
-antigo (ou alguém tiver trabalhado em cima dele em paralelo), espere:
+## Pipeline de machine learning (`src/`, `main.py`)
 
-- **Conflitos de "modificado aqui, deletado lá"** nos scripts que existiam
-  no layout antigo (`scripts/mapa_paises.py`, `scripts/step3_filtro_municipios.py`
-  etc.) — o git pode não detectar automaticamente que o arquivo só mudou de
-  pasta, principalmente porque o conteúdo também mudou (os caminhos internos
-  foram reescritos).
-- **Arquivos de dados brutos/processados não vão conflitar de verdade** —
-  a maioria está fora do controle de versão dos dois lados, então o pior
-  caso é só precisar rodar os scripts de novo pra regerar o que faltar.
-- **Antes de fazer push ou merge**: rode `git fetch` e dê uma olhada em
-  `git log --oneline --all` e `git diff` contra o remoto **antes** de
-  resolver qualquer conflito às pressas — a reorganização é grande o
-  suficiente pra valer a pena revisar arquivo por arquivo, não só aceitar
-  "ours"/"theirs" no automático.
+Ver [`README_PIPELINE_ML.md`](README_PIPELINE_ML.md) para a documentação
+completa: arquitetura em 7 etapas (pré-processamento, baseline TF-IDF,
+embeddings semânticos, clustering, associação a CNAE, recuperação de CNPJ e
+avaliação), instruções de instalação e execução, e esquema dos arquivos de
+saída em `outputs/`.

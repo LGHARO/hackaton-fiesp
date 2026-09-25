@@ -1,0 +1,19 @@
+{
+  "prefix": "cnaes",
+  "count": 673,
+  "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "dimension": 384,
+  "normalized": true,
+  "ids_sample": [
+    "01.11-3",
+    "01.12-1",
+    "01.13-0",
+    "01.14-8",
+    "01.15-6",
+    "01.16-4",
+    "01.19-9",
+    "01.21-1",
+    "01.22-9",
+    "07.24-3"
+  ]
+}
