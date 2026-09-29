@@ -23,6 +23,9 @@ dados/
 !gate_1/palpites_cnpj_top50.parquet
 !gate_2/palpites_cnpj_top50.parquet
 !gate_2/palpites_cnpj_top50_final.parquet
+!gate_2/palpites_base2_top50.csv
+!gate_2/palpites_base2_top50_detalhado.parquet
+!gate_2/palpites_cnpj_top50_final.csv
 
 # Dados privados, bases locais e arquivos volumosos (>100MB) -- pipeline ML (src/)
 data/private/
