@@ -13,7 +13,7 @@ Este repositório reúne as soluções da equipe para o hackathon FIESP: dada um
 | **Gate 1** | Base 1 — 57.846 linhas | até 50 palpites | [`gate_1/RELATORIO.md`](gate_1/RELATORIO.md) |
 | **Gate 2** | Base 2 — 23,2 mi de linhas, **sem** descrição do produto | até 50 palpites | [`gate_2/RELATORIO.md`](gate_2/RELATORIO.md) §4 e [`README_BASE2.md`](gate_2/scripts_sem_descricao/README_BASE2.md) |
 | **Gate 2** | Base 3 — 23,2 mi de linhas, **com** descrição do produto | até 50 palpites | [`gate_2/RELATORIO.md`](gate_2/RELATORIO.md) §3 |
-| Gate 3 | — | a definir | — |
+
 
 O Gate 2 exige, além dos 100 palpites (50 por base): relatório com metodologia, fontes, logs e scripts, e um **plano de mitigação das vulnerabilidades** (está em [`gate_2/RELATORIO.md`](gate_2/RELATORIO.md) §7).
 
